@@ -31,11 +31,9 @@ class LadinoSaida: public LadinoEntrada {
       void executarObjetivo(SINAL_POSICAO tendencia);
       bool verificarSaida();
       void verificarCruzamentoMediaBB();
-      void verificarSaidaBBRSI();
       double getMMT1(int pos);
       double getMMT2(int pos);
       double getMMT3(int pos);
-      
 };
 
 TIPO_STOP LadinoSaida::tipoStopAtual() {
@@ -337,11 +335,10 @@ void LadinoSaida::verificarObjetivoFixo() {
 void LadinoSaida::verificarCruzamentoMediaBB() {
    double preco = _precoCompra;
    if (this.getPosicaoAtual() == COMPRADO) {
-      double t1MM = pegarMMT1();
-     double mediaBB = t1BB.meio();
-     double mediaT1 = pegarMMT1();
-     double topoBB = t1BB.topo();
       if (operacaoAtual == SITUACAO_ABERTA || operacaoAtual == SITUACAO_BREAK_EVEN){
+        double mediaBB = t1BB.meio();
+        double mediaT1 = pegarMMT1();
+        double topoBB = t1BB.topo();
         /*if(t1NovaVela){
             double media2 = getMMT1(2);
             double media1 = getMMT1(1);
@@ -350,24 +347,14 @@ void LadinoSaida::verificarCruzamentoMediaBB() {
                alterarOperacaoAtual();
                this.finalizarPosicao();            
             }
-        } else*/ if(getSaidaPaulaComprado() == COMPRADO_SAIDA_PAULA_TOPO && (preco + 0.6) > topoBB){
+        } else*/ if(getSaidaPaulaComprado() == COMPRADO_SAIDA_PAULA_TOPO && (preco + 0.5) > topoBB){
             alterarOperacaoAtual();
-            
-            //this.finalizarPosicao();
-            
+            this.finalizarPosicao();
 
         } else if(getSaidaPaulaComprado() == COMPRADO_SAIDA_PAULA_MEDIA && preco > mediaBB){
             alterarOperacaoAtual();
             this.finalizarPosicao();
-            //this.parcialPosicao(preco, -1);
-            /* this.venderTP(1, preco);
-             this.setStopFixo(t1VelaAnterior.minima);*/
         }
-      }else if(t1NovaVela && operacaoAtual == SITUACAO_OBJETIVO1){
-         if(preco > topoBB){
-            this.finalizarPosicao();
-             //this.venderTP(1, preco);
-         }
       }
       /*else
       if(t1VelaAnterior.abertura > getMMT1(1) && t1VelaAnterior.fechamento > getMMT1(1)){
@@ -386,11 +373,9 @@ void LadinoSaida::verificarCruzamentoMediaBB() {
       }*/
    }
    else if (this.getPosicaoAtual() == VENDIDO) {
-      double t1MM = pegarMMT1();
-       double mediaBB = t1BB.meio();
-        double fundoBB = t1BB.fundo();
       if (operacaoAtual == SITUACAO_ABERTA || operacaoAtual == SITUACAO_BREAK_EVEN){
-       
+        double mediaBB = t1BB.meio();
+        double fundoBB = t1BB.fundo();
         /*if(t1NovaVela){
            double macd4 = t1MACD.main(4);
            double macd3 = t1MACD.main(3);
@@ -404,69 +389,20 @@ void LadinoSaida::verificarCruzamentoMediaBB() {
         }
 */
 
-        if(getSaidaPaulaVendido() == VENDIDO_SAIDA_PAULA_FUNDO && (preco - 0.6) < fundoBB ){
+        if(getSaidaPaulaVendido() == VENDIDO_SAIDA_PAULA_FUNDO && (preco - 0.5) < fundoBB ){
          alterarOperacaoAtual();
-         //this.finalizarPosicao();
+         this.finalizarPosicao();
         }
         else if(getSaidaPaulaVendido() == VENDIDO_SAIDA_PAULA_MEDIA && preco < mediaBB){
          alterarOperacaoAtual();
          this.finalizarPosicao();
-         /*this.comprarTP(1, preco);
-         this.setStopFixo(t1VelaAnterior.maxima);*/
-        }
-      }else if(t1NovaVela && operacaoAtual == SITUACAO_OBJETIVO1){
-         if(preco < fundoBB){
-            //this.finalizarPosicao();
-            this.comprarTP(1, preco);
-         }
-      }
-      //if (_precoVenda <= preco)
-        // alterarOperacaoAtual();
-   }
-}
-
-
-void LadinoSaida::verificarSaidaBBRSI() {
-   double preco = _precoCompra;
-   if (this.getPosicaoAtual() == COMPRADO) {
-      double t1MM = pegarMMT1();
-     double mediaBB = t1BB.meio();
-     double mediaT1 = pegarMMT1();
-     double topoBB = t1BB.topo();
-      if (operacaoAtual == SITUACAO_ABERTA || operacaoAtual == SITUACAO_BREAK_EVEN){
-        if(getSaidaPaulaComprado() == COMPRADO_SAIDA_PAULA_TOPO && (preco + 0.6) > topoBB){
-            alterarOperacaoAtual();
-        } else if(getSaidaPaulaComprado() == COMPRADO_SAIDA_PAULA_MEDIA && preco > mediaBB){
-         if(t1RSI.main(1) > topoBB){
-            alterarOperacaoAtual();
-            this.finalizarPosicao();
-         }
-           
-        }
-      }
-   }
-   else if (this.getPosicaoAtual() == VENDIDO) {
-      double t1MM = pegarMMT1();
-       double mediaBB = t1BB.meio();
-        double fundoBB = t1BB.fundo();
-      if (operacaoAtual == SITUACAO_ABERTA || operacaoAtual == SITUACAO_BREAK_EVEN){
-       
-
-        if(getSaidaPaulaVendido() == VENDIDO_SAIDA_PAULA_FUNDO && (preco - 0.6) < fundoBB ){
-         alterarOperacaoAtual();
-         //this.finalizarPosicao();
-        }
-        else if(getSaidaPaulaVendido() == VENDIDO_SAIDA_PAULA_MEDIA && preco < mediaBB){
-         if(t1RSI.main(1) < fundoBB){
-            alterarOperacaoAtual();
-            this.finalizarPosicao();
-         }
         }
       }
       //if (_precoVenda <= preco)
         // alterarOperacaoAtual();
    }
 }
+
 
 void LadinoSaida::executarBreakEven() {
    if (this.getPosicaoAtual() == COMPRADO) {
@@ -561,8 +497,7 @@ bool LadinoSaida::verificarSaida() {
       verificarRompimentoLTB();
       verificarRompimentoLTA();
    }else if (objetivo == OBJETIVO_BB_CRUZA_MEDIA) {   
-      //verificarCruzamentoMediaBB();
-      verificarSaidaBBRSI();
+      verificarCruzamentoMediaBB();
    }
    
    /*if(t1NovaVela && this.getPosicaoAtual() == COMPRADO){

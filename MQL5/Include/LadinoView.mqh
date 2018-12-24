@@ -270,7 +270,6 @@ int LadinoView::inicializarView() {
 
    t1BB.inicializar(_Period);
    t1MACD.inicializar(_Period, 21, 89, 42);
-   t1RSI.inicializar(_Period, 9);
    
    _MMT1Handle = iMA(_Symbol, _Period, getT1MM(), 0, MODE_EMA, PRICE_CLOSE);
    if(_MMT1Handle == INVALID_HANDLE) {
