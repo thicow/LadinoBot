@@ -301,3 +301,11 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+MQL5/Include/*
+*.ex5
+profiles/
+bases/
+config/
+Images/
+MQL5/Scripts/
+MQL5/Images/
