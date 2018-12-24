@@ -22,6 +22,7 @@ class LadinoView: public LadinoSaida {
    private:
       long t2chartid, t3chartid;
       int _MMT1Handle, _MMT2Handle, _MMT3Handle;
+      
    public:
       LadinoView(void);
       
@@ -29,6 +30,16 @@ class LadinoView: public LadinoSaida {
       double pegarMMT2();
       double pegarMMT3();
       
+      double pegarTopoBBT1();
+      double pegarMediaBBT1();
+      double pegarFundoBT1();
+      double pegarTopoBBT2();
+      double pegarMediaBBT2();
+      double pegarFundoBT2();
+      double pegarTopoBBT3();
+      double pegarMediaBBT3();
+      double pegarFundoBBT3();
+
       void atualizarNegociacaoAtual();
       void atualizarT1SRLabel();
       void atualizarT2SRLabel();
@@ -54,7 +65,7 @@ LadinoView::LadinoView(void) {
    _MMT1Handle = 0; 
    _MMT2Handle = 0;
    _MMT3Handle = 0;
-   
+      
    t2chartid = 0;
    t3chartid = 0;
 } 
@@ -257,12 +268,19 @@ int LadinoView::inicializarView() {
    if (getT3GraficoExtra())
       t3chartid = novoGrafico("grafico_terciario", getT3TempoGrafico(), 240, 200, 10, 210);
 
+   t1BB.inicializar(_Period);
+   t1MACD.inicializar(_Period, 21, 89, 42);
+   t1RSI.inicializar(_Period, 9);
+   
    _MMT1Handle = iMA(_Symbol, _Period, getT1MM(), 0, MODE_EMA, PRICE_CLOSE);
    if(_MMT1Handle == INVALID_HANDLE) {
       Print("Error creating MMT1 indicator");
       return(INIT_FAILED);
    }
    ChartIndicatorAdd(ChartID(), 0, _MMT1Handle); 
+   
+   
+   t2BB.inicializar(getT2TempoGrafico());
 
    _MMT2Handle = iMA(_Symbol, getT2TempoGrafico(), getT2MM(), 0, MODE_EMA, PRICE_CLOSE);
    if(_MMT2Handle == INVALID_HANDLE) {
@@ -271,6 +289,8 @@ int LadinoView::inicializarView() {
    }
    ChartIndicatorAdd(t2chartid, 0, _MMT2Handle); 
 
+
+   t3BB.inicializar(getT3TempoGrafico());
    _MMT3Handle = iMA(_Symbol, getT3TempoGrafico(), getT3MM(), 0, MODE_EMA, PRICE_CLOSE);
    if(_MMT3Handle == INVALID_HANDLE) {
       Print("Error creating MMT3 indicator");

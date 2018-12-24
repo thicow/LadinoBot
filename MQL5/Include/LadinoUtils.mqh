@@ -12,6 +12,15 @@ enum ENUM_TEMPO_GRAFICO {
    T3
 };
 
+enum SAIDA_PAULA_COMPRADO {
+   COMPRADO_SAIDA_PAULA_MEDIA = 1,
+   COMPRADO_SAIDA_PAULA_TOPO = 2
+   
+};
+enum SAIDA_PAULA_VENDIDO {
+   VENDIDO_SAIDA_PAULA_MEDIA = 1,
+   VENDIDO_SAIDA_PAULA_FUNDO = 2
+};
 enum CONDICAO_ENTRADA {
    HILO_CRUZ_MM_T1_TICK = 0,           // HiLo/MM T1 (Tick)
    HILO_CRUZ_MM_T2_TICK = 1,           // HiLo/MM T2 (Tick)
@@ -27,7 +36,15 @@ enum CONDICAO_ENTRADA {
    //HILO_ROMPEU_MM_T3_FECHAMENTO = 11,   // Price broke MM T3 (Close)
    APENAS_TENDENCIA_T1 = 12,            // Only Trend T1
    APENAS_TENDENCIA_T2 = 13,            // Only Trend T2
-   APENAS_TENDENCIA_T3 = 14             // Only Trend T3
+   APENAS_TENDENCIA_T3 = 14,             // Only Trend T3
+   ENTRADA_PAULA = 15,                         //Paula Strategy
+   ENTRADA_PAULA_CRUZA_MM = 16                      // Paula/Cruzamento de Médias Móveis
+};
+
+enum CONDICAO_SAIDA {
+   PAULA_M = 1,
+   PAULA_TOPO_FUNDO = 2,
+   CRUZ_MM = 3
 };
 
 enum TIPO_GESTAO_RISCO {
@@ -60,7 +77,9 @@ enum TIPO_OBJETIVO {
    OBJETIVO_T3_FIBO_2000 = 21,      // T3 Fibo 200
    OBJETIVO_T1_FIBO_2618 = 22,      // T1 Fibo 261,8
    OBJETIVO_T2_FIBO_2618 = 23,      // T2 Fibo 261,8
-   OBJETIVO_T3_FIBO_2618 = 24       // T3 Fibo 261,8
+   OBJETIVO_T3_FIBO_2618 = 24,       // T3 Fibo 261,8
+   OBJETIVO_BB_CRUZA_MEDIA = 25,
+   OBJETIVO_BB_EXTREMIDADE_OPOSTA = 25
 };
 
 enum TIPO_STOP {
